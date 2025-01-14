@@ -15,17 +15,17 @@ class _ExpansesState extends State<Expanses> {
     Expanse(
         title: "Cinema",
         amount: 12.12,
-        category: Category.leisure,
+        category: Categorys.leisure,
         date: DateTime.now()),
     Expanse(
         title: "Flutter Cours",
         amount: 18.12,
-        category: Category.work,
+        category: Categorys.work,
         date: DateTime.now()),
     Expanse(
         title: "Book",
         amount: 22.12,
-        category: Category.work,
+        category: Categorys.work,
         date: DateTime.now()),
   ];
 

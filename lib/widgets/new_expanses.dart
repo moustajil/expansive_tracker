@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ex_tr/model/expanse.dart';
 
 final formatter = DateFormat.yMd();
 
@@ -14,16 +16,18 @@ class _NewExpansesState extends State<NewExpanses> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  Categorys _selectedCategory = Categorys.leisure;
 
-  void _persentDatePiker() async {
+  void _presentDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 1, now.month, now.day);
     final lastDate = DateTime(now.year + 100, now.month, now.day);
     final pickedDate = await showDatePicker(
-        context: context,
-        initialDate: now,
-        firstDate: firstDate,
-        lastDate: lastDate);
+      context: context,
+      initialDate: now,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
     setState(() {
       _selectedDate = pickedDate;
     });
@@ -39,13 +43,13 @@ class _NewExpansesState extends State<NewExpanses> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       child: Column(
         children: [
           TextField(
             controller: _titleController,
             maxLength: 50,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               label: Text("Title"),
             ),
           ),
@@ -54,17 +58,14 @@ class _NewExpansesState extends State<NewExpanses> {
               Expanded(
                 child: TextField(
                   controller: _amountController,
-                  maxLength: 50,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixText: "\$ ",
                     label: Text("Amount"),
                   ),
                 ),
               ),
-              SizedBox(
-                width: 16,
-              ),
+              const SizedBox(width: 16),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -73,31 +74,54 @@ class _NewExpansesState extends State<NewExpanses> {
                         ? "No Date Selected"
                         : formatter.format(_selectedDate!)),
                     IconButton(
-                      onPressed: _persentDatePiker,
-                      icon: Icon(Icons.calendar_month),
-                    )
+                      onPressed: _presentDatePicker,
+                      icon: const Icon(Icons.calendar_month),
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              DropdownButton<Categorys>(
+                value: _selectedCategory,
+                items: Categorys.values
+                    .map(
+                      (category) => DropdownMenuItem<Categorys>(
+                        value: category,
+                        child: Text(
+                          category.name.toUpperCase(),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    if (value != null) {
+                      _selectedCategory = value;
+                    }
+                  });
+                },
+              ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Cancel"),
+                child: const Text("Cancel"),
               ),
               ElevatedButton(
                 onPressed: () {
                   print(_titleController.text);
                   print(_amountController.text);
+                  print(_selectedDate);
+                  print(_selectedCategory);
                 },
-                child: const Text("save expanse"),
-              )
+                child: const Text("Save Expense"),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
