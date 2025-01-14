@@ -1,5 +1,6 @@
 import 'package:ex_tr/widgets/expanses_list.dart/expanses_list.dart';
 import 'package:ex_tr/model/expanse.dart';
+import 'package:ex_tr/widgets/new_expanses.dart';
 import 'package:flutter/material.dart';
 
 class Expanses extends StatefulWidget {
@@ -32,7 +33,7 @@ class _ExpansesState extends State<Expanses> {
     showModalBottomSheet(
         context: context,
         builder: (ctx) {
-          return Text("The Buttom sheet");
+          return NewExpanses();
         });
   }
 
