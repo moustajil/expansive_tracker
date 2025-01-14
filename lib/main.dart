@@ -1,4 +1,4 @@
-import 'package:ex_tr/expanses.dart';
+import 'package:ex_tr/widgets/expanses.dart';
 import 'package:flutter/material.dart';
 
 void main() {

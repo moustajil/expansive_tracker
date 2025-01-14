@@ -27,13 +27,26 @@ class _ExpansesState extends State<Expanses> {
         category: Category.work,
         date: DateTime.now()),
   ];
+
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx) {
+          return Text("The Buttom sheet");
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Flutter Expanses Tracker APP"),
+        actions: [
+          IconButton(onPressed: _openAddExpenseOverlay, icon: Icon(Icons.add))
+        ],
+      ),
       body: Column(
         children: [
-          Text("The Chart"),
           Expanded(child: ExpansesLists(expansesList: _registerExpances))
         ],
       ),
