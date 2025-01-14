@@ -6,7 +6,9 @@ import 'package:ex_tr/model/expanse.dart';
 final formatter = DateFormat.yMd();
 
 class NewExpanses extends StatefulWidget {
-  const NewExpanses({super.key});
+  const NewExpanses({required this.onAddExpaseCart, super.key});
+
+  final void Function(Expanse expanse) onAddExpaseCart;
 
   @override
   State<NewExpanses> createState() => _NewExpansesState();
@@ -31,6 +33,43 @@ class _NewExpansesState extends State<NewExpanses> {
     setState(() {
       _selectedDate = pickedDate;
     });
+  }
+
+  void _submitExpensesForEmptyTextField() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount < 0;
+
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text("Error"),
+          content: const Text(
+            "Please make sure all fields are filled out correctly. "
+            "The title and amount must not be empty, and a valid date must be selected.",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Ok"),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    final myNewExpanse = Expanse(
+        title: _titleController.text,
+        amount: double.parse(_amountController.text),
+        category: _selectedCategory,
+        date: _selectedDate!);
+    widget.onAddExpaseCart(myNewExpanse);
+
+    // Add logic to process valid input here
   }
 
   @override
@@ -112,12 +151,7 @@ class _NewExpansesState extends State<NewExpanses> {
                 child: const Text("Cancel"),
               ),
               ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
-                  print(_selectedDate);
-                  print(_selectedCategory);
-                },
+                onPressed: _submitExpensesForEmptyTextField,
                 child: const Text("Save Expense"),
               ),
             ],

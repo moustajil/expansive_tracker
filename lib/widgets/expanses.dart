@@ -31,10 +31,17 @@ class _ExpansesState extends State<Expanses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
-        context: context,
-        builder: (ctx) {
-          return NewExpanses();
-        });
+      context: context,
+      builder: (ctx) {
+        return NewExpanses(onAddExpaseCart: _addExpansesCart);
+      },
+    );
+  }
+
+  void _addExpansesCart(Expanse expanse) {
+    setState(() {
+      _registerExpances.add(expanse);
+    });
   }
 
   @override
