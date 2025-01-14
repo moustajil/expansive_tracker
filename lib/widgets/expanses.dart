@@ -44,6 +44,10 @@ class _ExpansesState extends State<Expanses> {
     });
   }
 
+  void _removeExpansesCart(Expanse expanse) {
+    _registerExpances.remove(expanse);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +59,10 @@ class _ExpansesState extends State<Expanses> {
       ),
       body: Column(
         children: [
-          Expanded(child: ExpansesLists(expansesList: _registerExpances))
+          Expanded(
+              child: ExpansesLists(
+                  removeExpanse: _removeExpansesCart,
+                  expansesList: _registerExpances))
         ],
       ),
     );

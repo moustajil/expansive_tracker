@@ -68,6 +68,7 @@ class _NewExpansesState extends State<NewExpanses> {
         category: _selectedCategory,
         date: _selectedDate!);
     widget.onAddExpaseCart(myNewExpanse);
+    Navigator.pop(context);
 
     // Add logic to process valid input here
   }
