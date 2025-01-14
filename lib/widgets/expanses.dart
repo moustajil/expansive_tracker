@@ -11,23 +11,7 @@ class Expanses extends StatefulWidget {
 }
 
 class _ExpansesState extends State<Expanses> {
-  final List<Expanse> _registerExpances = [
-    Expanse(
-        title: "Cinema",
-        amount: 12.12,
-        category: Categorys.leisure,
-        date: DateTime.now()),
-    Expanse(
-        title: "Flutter Cours",
-        amount: 18.12,
-        category: Categorys.work,
-        date: DateTime.now()),
-    Expanse(
-        title: "Book",
-        amount: 22.12,
-        category: Categorys.work,
-        date: DateTime.now()),
-  ];
+  final List<Expanse> _registerExpances = [];
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
@@ -45,11 +29,36 @@ class _ExpansesState extends State<Expanses> {
   }
 
   void _removeExpansesCart(Expanse expanse) {
-    _registerExpances.remove(expanse);
+    final expanseIndex = _registerExpances.indexOf(expanse);
+    setState(() {
+      _registerExpances.remove(expanse);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 3),
+        content: Text("Expanse Deleted"),
+        action: SnackBarAction(
+            label: "Okay",
+            onPressed: () {
+              setState(() {
+                _registerExpances.insert(expanseIndex, expanse);
+              });
+            }),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = Center(
+      child: Text("No expanses found, start adding one"),
+    );
+
+    if (_registerExpances.isNotEmpty) {
+      mainContent = ExpansesLists(
+          removeExpanse: _removeExpansesCart, expansesList: _registerExpances);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flutter Expanses Tracker APP"),
@@ -58,12 +67,7 @@ class _ExpansesState extends State<Expanses> {
         ],
       ),
       body: Column(
-        children: [
-          Expanded(
-              child: ExpansesLists(
-                  removeExpanse: _removeExpansesCart,
-                  expansesList: _registerExpances))
-        ],
+        children: [Expanded(child: mainContent)],
       ),
     );
   }
