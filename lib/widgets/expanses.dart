@@ -67,7 +67,7 @@ class _ExpansesState extends State<Expanses> {
         ],
       ),
       body: Column(
-        children: [Expanded(child: mainContent)],
+        children: [Text("The Chart"), Expanded(child: mainContent)],
       ),
     );
   }
