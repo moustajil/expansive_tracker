@@ -11,8 +11,12 @@ class ExpansesItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(expanse.title),
+            Text(
+              expanse.title,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             SizedBox(
               height: 10,
             ),
