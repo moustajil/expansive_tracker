@@ -1,3 +1,4 @@
+import 'package:ex_tr/widgets/charts/chart.dart';
 import 'package:ex_tr/widgets/expanses_list.dart/expanses_list.dart';
 import 'package:ex_tr/model/expanse.dart';
 import 'package:ex_tr/widgets/new_expanses.dart';
@@ -68,7 +69,7 @@ class _ExpansesState extends State<Expanses> {
       ),
       body: Column(
         children: [
-          Text("The Chart"),
+          Chart(expenses: _registerExpances),
           Expanded(child: mainContent),
         ],
       ),
